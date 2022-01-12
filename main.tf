@@ -162,15 +162,7 @@ resource "aws_s3_bucket" "this" {
               
               }
 
-              dynamic "metrics" {
-                for_each = length(keys(lookup(destination.value, "metrics", {}))) == 0 ? [] : [lookup(destination.value, "metrics", {})]
-
-                content {
-                  status  = metrics.value.status
-                  minutes = metrics.value.minutes
-                }
-              
-            }
+             
           }
 
           dynamic "source_selection_criteria" {
