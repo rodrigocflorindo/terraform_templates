@@ -140,7 +140,6 @@ resource "aws_s3_bucket" "this" {
           id                               = lookup(rules.value, "id", null)
           priority                         = lookup(rules.value, "priority", null)
           prefix                           = lookup(rules.value, "prefix", null)
-          delete_marker_replication_status = lookup(rules.value, "delete_marker_replication_status", null)
           status                           = rules.value.status
 
           dynamic "destination" {
@@ -160,13 +159,7 @@ resource "aws_s3_bucket" "this" {
                 }
               }
 
-              dynamic "replication_time" {
-                for_each = length(keys(lookup(destination.value, "replication_time", {}))) == 0 ? [] : [lookup(destination.value, "replication_time", {})]
-
-                content {
-                  status  = replication_time.value.status
-                  minutes = replication_time.value.minutes
-                }
+              
               }
 
               dynamic "metrics" {
@@ -176,7 +169,7 @@ resource "aws_s3_bucket" "this" {
                   status  = metrics.value.status
                   minutes = metrics.value.minutes
                 }
-              }
+              
             }
           }
 
